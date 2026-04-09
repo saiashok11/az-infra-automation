@@ -101,6 +101,7 @@ output "vm_private_ip" {
 output "vm_admin_username" {
   description = "Admin username for the virtual machine"
   value       = [for profile in azurerm_virtual_machine.example.os_profile : profile.admin_username][0]
+  sensitive   = true
 }
 
 # Storage Account Outputs
