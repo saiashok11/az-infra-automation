@@ -1,12 +1,23 @@
 name: 'Terraform VM Creation workflow'
 
 on:
-  push:
-    branches:
-      - dev
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch: 
+    inputs:
+      environments:
+        description: this is input demo
+        required: true
+        default: dev
+        type: choice
+        options:
+          - dev
+          - QA
+          - main
+      
+    # branches:
+    #   - dev
+  # pull_request:
+  #   branches:
+  #     - main
 
 jobs:
   Infra:
