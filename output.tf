@@ -100,7 +100,7 @@ output "vm_private_ip" {
 
 output "vm_admin_username" {
   description = "Admin username for the virtual machine"
-  value       = azurerm_virtual_machine.example.os_profile[0].admin_username
+  value       = [for profile in azurerm_virtual_machine.example.os_profile : profile.admin_username][0]
 }
 
 # Storage Account Outputs
