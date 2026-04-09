@@ -6,7 +6,7 @@ on:
       environments:
         description: this is input demo
         required: true
-        default: dev
+        # default: dev
         type: choice
         options:
           - dev
