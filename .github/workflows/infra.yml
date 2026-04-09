@@ -12,12 +12,10 @@ on:
           - dev
           - QA
           - main
-      
-    # branches:
-    #   - dev
-  # pull_request:
-  #   branches:
-  #     - main
+          
+  pull_request:
+    branches:
+      - main
 
 jobs:
   Infra:
