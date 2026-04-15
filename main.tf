@@ -84,6 +84,21 @@ resource "azurerm_public_ip" "lb_public_ip" {
   sku                 = "Standard"
 }
 
+# Public IPs for VMs
+
+resource "azurerm_public_ip" "vm_public_ips" {
+  count               = length(var.vm_names)
+  name                = "PublicIP-${var.vm_names[count.index]}"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+
+  tags = {
+    vm_name = var.vm_names[count.index]
+  }
+}
+
 # Load Balancer
 
 resource "azurerm_lb" "lb" {
@@ -142,6 +157,7 @@ resource "azurerm_network_interface" "nics" {
     name                          = "testConfiguration"
     subnet_id                     = azurerm_subnet.websubnets[count.index].id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.vm_public_ips[count.index].id
   }
 }
 

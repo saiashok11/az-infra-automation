@@ -71,6 +71,17 @@ output "nsg_name" {
   value       = azurerm_network_security_group.nsg.name
 }
 
+# Access Summary - Nginx URLs
+
+output "nginx_access_urls" {
+  description = "URLs to access Nginx on all IP addresses"
+  value = {
+    load_balancer = "http://${azurerm_public_ip.lb_public_ip.ip_address}:80"
+    webserver01   = "http://${azurerm_public_ip.vm_public_ips[0].ip_address}:80"
+    webserver02   = "http://${azurerm_public_ip.vm_public_ips[1].ip_address}:80"
+  }
+}
+
 # Network Interface Outputs
 
 output "network_interface_ids" {
@@ -82,8 +93,6 @@ output "network_interface_private_ips" {
   description = "Private IP addresses of the network interfaces"
   value       = azurerm_network_interface.nics[*].private_ip_address
 }
-
-# Virtual Machine Outputs
 
 output "vm_ids" {
   description = "IDs of the virtual machines"
@@ -97,7 +106,10 @@ output "vm_names" {
 
 output "vm_private_ips" {
   description = "Private IP addresses of the virtual machines"
-  value       = azurerm_network_interface.nics[*].private_ip_address
+  value = {
+    webserver01 = azurerm_network_interface.nics[0].private_ip_address
+    webserver02 = azurerm_network_interface.nics[1].private_ip_address
+  }
 }
 
 # Load Balancer Outputs
@@ -125,6 +137,16 @@ output "load_balancer_backend_pool_id" {
 output "load_balancer_frontend_ip_configuration" {
   description = "Frontend IP configuration of the load balancer"
   value       = azurerm_lb.lb.frontend_ip_configuration[0].id
+}
+
+# VM Public IPs - Direct Access
+
+output "vm_public_ips" {
+  description = "Public IP addresses of the VMs for direct access"
+  value = {
+    webserver01 = azurerm_public_ip.vm_public_ips[0].ip_address
+    webserver02 = azurerm_public_ip.vm_public_ips[1].ip_address
+  }
 }
 
 # output "vm_name" {
