@@ -22,6 +22,58 @@ resource "azurerm_subnet" "websubnets" {
   address_prefixes     = [var.subnet_address_prefixes[count.index]]
 }
 
+# Network Security Group (NSG)
+
+resource "azurerm_network_security_group" "nsg" {
+  name                = var.nsg_name
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+
+  tags = {
+    environment = var.environment_tag
+  }
+}
+
+# NSG Rule - Allow HTTP (Port 80)
+
+resource "azurerm_network_security_rule" "allow_http" {
+  name                        = "AllowHTTP"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = var.http_port
+  source_address_prefix       = var.allow_traffic_from
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.example.name
+  network_security_group_name = azurerm_network_security_group.nsg.name
+}
+
+# NSG Rule - Allow SSH (Port 22)
+
+resource "azurerm_network_security_rule" "allow_ssh" {
+  name                        = "AllowSSH"
+  priority                    = 101
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = var.ssh_port
+  source_address_prefix       = var.allow_traffic_from
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.example.name
+  network_security_group_name = azurerm_network_security_group.nsg.name
+}
+
+# Associate NSG with Subnets
+
+resource "azurerm_subnet_network_security_group_association" "nsg_association" {
+  count                     = length(var.subnet_names)
+  subnet_id                 = azurerm_subnet.websubnets[count.index].id
+  network_security_group_id = azurerm_network_security_group.nsg.id
+}
+
 # Public IP for Load Balancer
 
 resource "azurerm_public_ip" "lb_public_ip" {

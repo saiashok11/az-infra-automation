@@ -59,6 +59,18 @@ output "subnet_address_prefixes" {
   value       = azurerm_subnet.websubnets[*].address_prefixes
 }
 
+# Network Security Group Outputs
+
+output "nsg_id" {
+  description = "ID of the network security group"
+  value       = azurerm_network_security_group.nsg.id
+}
+
+output "nsg_name" {
+  description = "Name of the network security group"
+  value       = azurerm_network_security_group.nsg.name
+}
+
 # Network Interface Outputs
 
 output "network_interface_ids" {

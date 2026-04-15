@@ -125,6 +125,32 @@ variable "lb_probe_name" {
   default     = "HTTPProbe"
 }
 
+# Network Security Group Variables
+
+variable "nsg_name" {
+  description = "Name of the network security group"
+  type        = string
+  default     = "WebserverNSG"
+}
+
+variable "http_port" {
+  description = "HTTP port for web traffic"
+  type        = number
+  default     = 80
+}
+
+variable "ssh_port" {
+  description = "SSH port for remote access"
+  type        = number
+  default     = 22
+}
+
+variable "allow_traffic_from" {
+  description = "Source IP/CIDR for traffic (use * for anywhere)"
+  type        = string
+  default     = "*"
+}
+
 # Storage Account & Terraform Backend Variables
 
 # variable "storage_account_name" {
