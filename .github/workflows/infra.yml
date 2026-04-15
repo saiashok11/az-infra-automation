@@ -18,8 +18,14 @@ on:
       - main
 
 jobs:
-  Infra:
+  terraform:
     runs-on: ubuntu-latest
+    env:
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      TF_VAR_vm_admin_password: ${{ secrets.AZURE_PASS }}
 
     steps:
       - name: Checkout repository
