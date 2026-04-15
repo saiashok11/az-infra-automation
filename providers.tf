@@ -12,9 +12,17 @@ terraform {
 
   # Uncomment below after creating resources in Azure
   # backend "azurerm" {
-  #   resource_group_name  = "tf-backend-rg-new"
-  #   storage_account_name = "mystgaccount091d2ce85"
-  #   container_name       = "mytfstatecontainer"
+  #   resource_group_name  = var.backend_resource_group_name
+  #   storage_account_name = var.storage_account_name
+  #   container_name       = var.storage_container_name
   #   key                  = "terraform.tfstate"
   # }
+}
+
+provider "azurerm" {
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
 }

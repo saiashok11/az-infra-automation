@@ -9,7 +9,7 @@
 variable "resource_group_name" {
   description = "Name of the resource group for main application resources"
   type        = string
-  default     = "MYRG012"
+  default     = "RG01"
 }
 
 variable "location" {
@@ -23,7 +23,7 @@ variable "location" {
 variable "virtual_network_name" {
   description = "Name of the virtual network"
   type        = string
-  default     = "myVnet01"
+  default     = "Vnet01"
 }
 
 variable "address_space" {
@@ -32,116 +32,123 @@ variable "address_space" {
   default     = ["10.0.0.0/16"]
 }
 
-variable "subnet_name" {
-  description = "Name of the subnet"
-  type        = string
-  default     = "mySubnet01"
+# Subnet Variables
+
+variable "subnet_names" {
+  description = "Names of the subnets"
+  type        = list(string)
+  default     = ["webSubnet01", "webSubnet02"]
 }
 
 variable "subnet_address_prefixes" {
-  description = "Address prefixes for subnet"
+  description = "Address prefixes for subnets"
   type        = list(string)
-  default     = ["10.0.2.0/24"]
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
-variable "network_interface_name" {
-  description = "Name of the network interface"
-  type        = string
-  default     = "myNIC01"
+# Network Interface Variables
+
+variable "network_interface_names" {
+  description = "Names of the network interfaces"
+  type        = list(string)
+  default     = ["NIC01", "NIC02"]
 }
 
 # Virtual Machine Variables
 
-variable "vm_name" {
-  description = "Name of the virtual machine"
-  type        = string
-  default     = "myVM01"
+variable "vm_names" {
+  description = "Names of the virtual machines"
+  type        = list(string)
+  default     = ["webserver01", "webserver02"]
 }
 
 variable "vm_size" {
-  description = "Size of the virtual machine"
+  description = "Size of the virtual machines"
   type        = string
-  default     = "Standard_DS1_v2"
+  default     = "Standard_B2s"
 }
 
-# VM Image Variables
-
-variable "image_publisher" {
-  description = "Publisher of the VM image"
+variable "vm_admin_username" {
+  description = "Admin username for VMs"
   type        = string
-  default     = "Canonical"
+  default     = "azureuser"
 }
 
-variable "image_offer" {
-  description = "Offer of the VM image"
+variable "vm_admin_password" {
+  description = "Admin password for VMs (from GitHub secrets AZURE_PASS)"
   type        = string
-  default     = "UbuntuServer"
-}
-
-variable "image_sku" {
-  description = "SKU of the VM image"
-  type        = string
-  default     = "18.04-LTS"
-}
-
-variable "image_version" {
-  description = "Version of the VM image"
-  type        = string
-  default     = "latest"
-}
-
-variable "os_disk_name" {
-  description = "Name of the OS disk"
-  type        = string
-  default     = "myOSDisk01"
-}
-
-# VM Admin Credentials Variables
-
-variable "computer_name" {
-  description = "Computer name for the VM"
-  type        = string
-  default     = "myMachine01"
-}
-
-variable "admin_username" {
-  description = "Admin username for the VM"
-  type        = string
-  default     = "adminuser"
   sensitive   = true
+  default     = ""
 }
 
-variable "admin_password" {
-  description = "Admin password for the VM"
+variable "os_disk_caching" {
+  description = "Caching type for OS disk"
   type        = string
-  default     = "Password123!"
-  sensitive   = true
+  default     = "ReadWrite"
+}
+
+variable "os_disk_storage_account_type" {
+  description = "Storage account type for OS disk"
+  type        = string
+  default     = "Premium_LRS"
+}
+
+# Load Balancer Variables
+
+variable "load_balancer_name" {
+  description = "Name of the load balancer"
+  type        = string
+  default     = "LB01"
+}
+
+variable "lb_frontend_ip_name" {
+  description = "Name of load balancer frontend IP"
+  type        = string
+  default     = "LBFrontendIP"
+}
+
+variable "lb_backend_pool_name" {
+  description = "Name of load balancer backend pool"
+  type        = string
+  default     = "LBBackendPool"
+}
+
+variable "lb_rule_name" {
+  description = "Name of load balancer rule"
+  type        = string
+  default     = "HTTPRule"
+}
+
+variable "lb_probe_name" {
+  description = "Name of load balancer health probe"
+  type        = string
+  default     = "HTTPProbe"
 }
 
 # Storage Account & Terraform Backend Variables
 
-variable "storage_account_name" {
-  description = "Name of the storage account for Terraform state"
-  type        = string
-  default     = "mystgaccount091d2ce85"
-}
+# variable "storage_account_name" {
+#   description = "Name of the storage account for Terraform state"
+#   type        = string
+#   default     = ""
+# }
 
-variable "storage_container_name" {
-  description = "Name of the storage container for Terraform state"
-  type        = string
-  default     = "mytfstatecontainer"
-}
+# variable "storage_container_name" {
+#   description = "Name of the storage container for Terraform state"
+#   type        = string
+#   default     = ""
+# }
 
-variable "backend_resource_group_name" {
-  description = "Resource group name for storage account"
-  type        = string
-  default     = "tf-backend-rg-new"
-}
+# variable "backend_resource_group_name" {
+#   description = "Resource group name for storage account"
+#   type        = string
+#   default     = ""
+# }
 
-# Tags
+# Environment Tag
 
 variable "environment_tag" {
-  description = "Environment tag"
+  description = "Environment tag for resources"
   type        = string
-  default     = "testing"
+  default     = "production"
 }
