@@ -20,9 +20,9 @@ on:
 #           - QA
 #           - main
           
-  pull_request:
-    branches:
-      - main
+  # pull_request:
+  #   branches:
+  #     - main
 
 jobs:
   terraform:
