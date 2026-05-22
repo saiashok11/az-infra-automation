@@ -1,4 +1,4 @@
-name: 'Terraform VM Creation workflow'
+name: Terraform VM Creation workflow
 
 on:
   push:
