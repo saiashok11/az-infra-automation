@@ -78,7 +78,6 @@ variable "vm_admin_password" {
   description = "Admin password for VMs (from GitHub secrets AZURE_PASS)"
   type        = string
   sensitive   = true
-  default     = ""
 }
 
 variable "os_disk_caching" {
