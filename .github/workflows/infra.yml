@@ -1,28 +1,29 @@
 name: Terraform VM Creation workflow
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#  push:
+#   branches:
+#      - main
+#  pull_request:
+#    branches:
+#      - main
+
+ on:
+  workflow_dispatch: 
+    inputs:
+      environments:
+        description: this is input demo
+        required: true
+        default: main
+        type: choice
+        options:
+          - dev
+          - QA
+          - main
+          
   pull_request:
     branches:
       - main
-# on:
-#   workflow_dispatch: 
-#     inputs:
-#       environments:
-#         description: this is input demo
-#         required: true
-#         default: dev
-#         type: choice
-#         options:
-#           - dev
-#           - QA
-#           - main
-          
-  # pull_request:
-  #   branches:
-  #     - main
 
 jobs:
   terraform:
