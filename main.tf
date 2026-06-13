@@ -1,15 +1,15 @@
 # Main Application Resources
 
-resource "azurerm_resource_group" "example" {
+resource "azurerm_resource_group" "rg01" {
   name     = var.resource_group_name
   location = var.location
 }
 
-resource "azurerm_virtual_network" "example" {
+resource "azurerm_virtual_network" "vnet01" {
   name                = var.virtual_network_name
   address_space       = var.address_space
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.vnet01.location
+  resource_group_name = azurerm_resource_group.rg01.name
 }
 
 # Subnets
@@ -17,8 +17,8 @@ resource "azurerm_virtual_network" "example" {
 resource "azurerm_subnet" "websubnets" {
   count                = length(var.subnet_names)
   name                 = var.subnet_names[count.index]
-  resource_group_name  = azurerm_resource_group.example.name
-  virtual_network_name = azurerm_virtual_network.example.name
+  resource_group_name  = azurerm_resource_group.rg01.name
+  virtual_network_name = azurerm_virtual_network.vent01.name
   address_prefixes     = [var.subnet_address_prefixes[count.index]]
 }
 
@@ -26,8 +26,8 @@ resource "azurerm_subnet" "websubnets" {
 
 resource "azurerm_network_security_group" "nsg" {
   name                = var.nsg_name
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.rg01.location
+  resource_group_name = azurerm_resource_group.rg01.name
 
   tags = {
     environment = var.environment_tag
@@ -46,7 +46,7 @@ resource "azurerm_network_security_rule" "allow_http" {
   destination_port_range      = var.http_port
   source_address_prefix       = var.allow_traffic_from
   destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.example.name
+  resource_group_name         = azurerm_resource_group.rg01.name
   network_security_group_name = azurerm_network_security_group.nsg.name
 }
 
@@ -62,7 +62,7 @@ resource "azurerm_network_security_rule" "allow_ssh" {
   destination_port_range      = var.ssh_port
   source_address_prefix       = var.allow_traffic_from
   destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.example.name
+  resource_group_name         = azurerm_resource_group.rg01.name
   network_security_group_name = azurerm_network_security_group.nsg.name
 }
 
@@ -78,8 +78,8 @@ resource "azurerm_subnet_network_security_group_association" "nsg_association" {
 
 resource "azurerm_public_ip" "lb_public_ip" {
   name                = "LBPublicIP"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.rg01.location
+  resource_group_name = azurerm_resource_group.rg01.name
   allocation_method   = "Static"
   sku                 = "Standard"
 }
@@ -89,8 +89,8 @@ resource "azurerm_public_ip" "lb_public_ip" {
 resource "azurerm_public_ip" "vm_public_ips" {
   count               = length(var.vm_names)
   name                = "PublicIP-${var.vm_names[count.index]}"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.rg01.location
+  resource_group_name = azurerm_resource_group.rg01.name
   allocation_method   = "Static"
   sku                 = "Standard"
 
@@ -103,8 +103,8 @@ resource "azurerm_public_ip" "vm_public_ips" {
 
 resource "azurerm_lb" "lb" {
   name                = var.load_balancer_name
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.rg01.location
+  resource_group_name = azurerm_resource_group.rg01.name
   sku                 = "Standard"
 
   frontend_ip_configuration {
@@ -150,8 +150,8 @@ resource "azurerm_lb_rule" "http_rule" {
 resource "azurerm_network_interface" "nics" {
   count               = length(var.network_interface_names)
   name                = var.network_interface_names[count.index]
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.rg01.location
+  resource_group_name = azurerm_resource_group.rg01.name
 
   ip_configuration {
     name                          = "testConfiguration"
@@ -175,8 +175,8 @@ resource "azurerm_network_interface_backend_address_pool_association" "nic_lb_as
 resource "azurerm_linux_virtual_machine" "vms" {
   count               = length(var.vm_names)
   name                = var.vm_names[count.index]
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.rg01.location
+  resource_group_name = azurerm_resource_group.rg01.name
   size                = var.vm_size
 
   admin_username = var.vm_admin_username
