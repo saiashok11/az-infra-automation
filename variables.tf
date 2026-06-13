@@ -9,7 +9,7 @@
 variable "resource_group_name" {
   description = "Name of the resource group for main application resources"
   type        = string
-  default     = "RG01"
+  default     = "rg01"
 }
 
 variable "location" {
@@ -23,7 +23,7 @@ variable "location" {
 variable "virtual_network_name" {
   description = "Name of the virtual network"
   type        = string
-  default     = "Vnet01"
+  default     = "vnet01"
 }
 
 variable "address_space" {
