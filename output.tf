@@ -17,29 +17,29 @@
 
 output "resource_group_id" {
   description = "ID of the main resource group"
-  value       = azurerm_resource_group.example.id
+  value       = azurerm_resource_group.rg01.id
 }
 
 output "resource_group_name" {
   description = "Name of the main resource group"
-  value       = azurerm_resource_group.example.name
+  value       = azurerm_resource_group.rg01.name
 }
 
 # Virtual Network Outputs
 
 output "vnet_id" {
   description = "ID of the virtual network"
-  value       = azurerm_virtual_network.example.id
+  value       = azurerm_virtual_network.vnet01.id
 }
 
 output "vnet_name" {
   description = "Name of the virtual network"
-  value       = azurerm_virtual_network.example.name
+  value       = azurerm_virtual_network.vnet01.name
 }
 
 output "vnet_address_space" {
   description = "Address space of the virtual network"
-  value       = azurerm_virtual_network.example.address_space
+  value       = azurerm_virtual_network.vnet01.address_space
 }
 
 # Subnet Outputs
