@@ -1,14 +1,6 @@
 name: Terraform VM Creation workflow
 
-# on:
-#  push:
-#   branches:
-#      - main
-#  pull_request:
-#    branches:
-#      - main
-
- on:
+on:
   workflow_dispatch: 
     inputs:
       environments:
@@ -24,6 +16,14 @@ name: Terraform VM Creation workflow
   pull_request:
     branches:
       - main
+# on:
+#  push:
+#   branches:
+#      - main
+#  pull_request:
+#    branches:
+#      - main
+
 
 jobs:
   terraform:
