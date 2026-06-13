@@ -153,9 +153,9 @@ resource "azurerm_network_interface" "nics" {
   location            = azurerm_resource_group.rg01.location
   resource_group_name = azurerm_resource_group.rg01.name
 
-  ip_configuration {
+ip_configuration {
     name                          = "testConfiguration"
-    subnet_id                     = azurerm_subnet.websubnets[count.index].id
+    subnet_id                     = azurerm_subnet.websubnets[0].id # Changed count.index to 0
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.vm_public_ips[count.index].id
   }
